@@ -37,12 +37,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    print('CURRENT FLAVOR: $flavor');
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(titleByFlavor()),
       ),
       body: CharacterList(),
     );
+  }
+
+  String titleByFlavor() {
+    return flavor == 'simpsons'
+        ? 'Simpsons Character Viewer'
+        : 'The Wire Character Viewer';
   }
 }
