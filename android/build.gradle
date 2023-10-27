@@ -18,6 +18,22 @@ allprojects {
     }
 }
 
+flavorDimensions "default"
+
+productFlavors {
+    simpsons {
+        dimension "default"
+        resValue "string", "app_name", "Simpsons Character Viewer"
+        applicationIdSuffix ".simpsons"
+    }
+
+    wire {
+        dimension "default"
+        resValue "string", "app_name", "The Wire Character Viewer"
+        applicationIdSuffix ".wireviewer"
+    }
+}
+
 rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"

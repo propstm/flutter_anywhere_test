@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "configurations": [
+    {
+      "name": "simpsons",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["--flavor", "simpsons", "--target", "lib/main.dart" ]
+    }
+  ],
+  "compounds": []
+}
