@@ -23,3 +23,17 @@ flutter test --coverage
 genhtml coverage/lcov.info -o coverage/html
 open coverage/html/index.html
 ```
+
+## Resources and Libraries Used
+
+https://pub-web.flutter-io.cn/packages/dio
+
+https://pub.dev/packages/json_serializable
+
+https://docs.flutter.dev/deployment/flavors
+
+https://codewithandrea.com/articles/flutter-test-coverage/
+
+https://docs.flutter.dev/cookbook/testing/unit/introduction
+
+https://jsonlint.com/
