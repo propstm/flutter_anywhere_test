@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_anywhere_test/models/simpsons/character_info.dart';
-import 'package:flutter_anywhere_test/models/simpsons/characters_list_response.dart';
-import 'package:flutter_anywhere_test/repository/simpsons_repository.dart';
 
-import 'network/api_service.dart';
+import 'character_list.dart';
 
 //Flavor check!
 const String flavor = String.fromEnvironment('app.flavor');
@@ -21,15 +18,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
@@ -40,15 +28,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -56,78 +35,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  Future<CharactersListResponse> _loadCharacters() async {
-    final api = ApiService();
-    return await SimpsonsRepository(api: api).getCharacters();
-  }
-
   @override
   Widget build(BuildContext context) {
     print('CURRENT FLAVOR: $flavor');
     return Scaffold(
-        appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text(widget.title),
-        ),
-        body: FutureBuilder<CharactersListResponse>(
-          future: _loadCharacters(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.none &&
-                snapshot.hasData == null) {
-              //print('project snapshot data is: ${projectSnap.data}');
-              return Container();
-            }
-            return ListView.builder(
-              itemCount: snapshot.data?.RelatedTopics.length,
-              itemBuilder: (context, index) {
-                CharacterInfo? currentCharacter =
-                    snapshot.data?.RelatedTopics[index];
-                List<String>? characterTextArray =
-                    currentCharacter?.Text.split(' - ');
-                String characterName = '';
-                if (characterTextArray != null &&
-                    characterTextArray.length > 0) {
-                  characterName = characterTextArray[0];
-                }
-
-                return SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    children: <Widget>[
-                      // Widget to display the list of project
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          children: [
-                            Flexible(
-                                child: Text(
-                              characterName,
-                              style: TextStyle(fontSize: 20),
-                              maxLines: 3,
-                            ))
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              },
-            );
-          },
-        ));
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: CharacterList(),
+    );
   }
 }
