@@ -27,15 +27,29 @@ class CharacterDetail extends StatelessWidget {
         child: SingleChildScrollView(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Expanded(child: Text(selectedCharacter['description'])),
-              const SizedBox(
-                width: 16,
-              ),
-              buildImage(),
-            ]),
+            Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                      child: Column(
+                    children: [
+                      if (isTablet)
+                        Text(selectedCharacter['name'],
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Text(selectedCharacter['description'])
+                    ],
+                  )),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  buildImage(),
+                ]),
           ],
         )),
       ),
@@ -43,12 +57,11 @@ class CharacterDetail extends StatelessWidget {
   }
 
   Widget buildImage() {
-    print('image url:');
-    print(selectedCharacter['image']);
     return Image.network(
       selectedCharacter['image'],
-      height: 200,
-      width: 200,
+      fit: BoxFit.fitWidth,
+      height: 150,
+      width: 150,
     );
   }
 }

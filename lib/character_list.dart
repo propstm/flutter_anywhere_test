@@ -53,13 +53,12 @@ class _CharacterListState extends State<CharacterList> {
 
   void pushOrDisplayDetail(
       BuildContext context, String name, String description, String image) {
-    print('got to here');
-
     selectedCharacter = {
       'name': name,
       'description': description,
       'image': image
     };
+
     //Check shortest side to determine device type
     //source https://stackoverflow.com/questions/49484549/can-we-check-the-device-to-be-smartphone-or-tablet-in-flutter
     if (isPhone(context)) {
@@ -93,7 +92,8 @@ class _CharacterListState extends State<CharacterList> {
         List<String>? characterTextArray = currentCharacter?.Text.split(' - ');
         String characterName = '';
         String characterDescription = '';
-        String characterImage = '';
+        String characterImage =
+            'https://assets-global.website-files.com/633f08923c4c519693723aa5/633f08923c4c514c4b723b19_2516_Anywhere_Logo.png';
         if (characterTextArray != null && characterTextArray.length > 0) {
           characterName = characterTextArray[0];
           if (characterTextArray.length > 1) {
@@ -104,17 +104,12 @@ class _CharacterListState extends State<CharacterList> {
                 currentCharacter!.FirstURL, currentCharacter!.Icon);
           }
         }
-        return GestureDetector(
-          onTap: () {
-            print('test via gesture detector');
-          },
-          child: ListTile(
-              leading: null,
-              trailing: const Icon(Icons.arrow_right_sharp),
-              title: Text(characterName),
-              onTap: () => pushOrDisplayDetail(context, characterName,
-                  characterDescription, characterImage)),
-        );
+        return ListTile(
+            leading: null,
+            trailing: const Icon(Icons.arrow_right_sharp),
+            title: Text(characterName),
+            onTap: () => pushOrDisplayDetail(
+                context, characterName, characterDescription, characterImage));
       },
     );
   }
