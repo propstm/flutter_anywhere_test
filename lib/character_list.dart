@@ -6,8 +6,14 @@ import 'models/simpsons/character_info.dart';
 import 'models/simpsons/characters_list_response.dart';
 import 'network/api_service.dart';
 
-class CharacterList extends StatelessWidget {
+class CharacterList extends StatefulWidget {
+  @override
+  State<CharacterList> createState() => _CharacterListState();
+}
+
+class _CharacterListState extends State<CharacterList> {
   bool buildSideBySide = false;
+
   Map<String, dynamic> selectedCharacter = {};
 
   Future<CharactersListResponse> _loadCharacters() async {
@@ -17,6 +23,18 @@ class CharacterList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (buildSideBySide) {
+      return Row(children: [
+        Expanded(child: buildFutureList(context)),
+        Expanded(
+            child: CharacterDetail(
+                selectedCharacter: selectedCharacter, isTablet: true)),
+      ]);
+    }
+    return buildFutureList(context);
+  }
+
+  Widget buildFutureList(BuildContext context) {
     return FutureBuilder<CharactersListResponse>(
         future: _loadCharacters(),
         builder: (context, snapshot) {
@@ -38,8 +56,9 @@ class CharacterList extends StatelessWidget {
     selectedCharacter = {
       'name': name,
       'description': description,
-      image: image
+      'image': image
     };
+
     //Check shortest side to determine device type
     //source https://stackoverflow.com/questions/49484549/can-we-check-the-device-to-be-smartphone-or-tablet-in-flutter
     if (isPhone(context)) {
@@ -47,11 +66,13 @@ class CharacterList extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => CharacterDetail(
-                name: name, description: description, imageUrl: image),
+              selectedCharacter: selectedCharacter,
+              isTablet: false,
+            ),
           ));
     } else {
       buildSideBySide = true;
-      this.build(context);
+      setState(() {});
     }
   }
 
@@ -71,12 +92,17 @@ class CharacterList extends StatelessWidget {
         List<String>? characterTextArray = currentCharacter?.Text.split(' - ');
         String characterName = '';
         String characterDescription = '';
-        String characterImage = '';
+        String characterImage =
+            'https://assets-global.website-files.com/633f08923c4c519693723aa5/633f08923c4c514c4b723b19_2516_Anywhere_Logo.png';
         if (characterTextArray != null && characterTextArray.length > 0) {
           characterName = characterTextArray[0];
-          //characterDescription = characterTextArray[1];
-          //characterImage = parseCharacterImageUrl(
-          //    currentCharacter!.FirstURL, currentCharacter!.Icon);
+          if (characterTextArray.length > 1) {
+            characterDescription = characterTextArray[1];
+          }
+          if (currentCharacter!.Icon['URL'] != '') {
+            characterImage = parseCharacterImageUrl(
+                currentCharacter!.FirstURL, currentCharacter!.Icon);
+          }
         }
         return ListTile(
             leading: null,
