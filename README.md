@@ -4,13 +4,21 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This app is a sample code exercise using build flavors and having unique experience for tablets vs phones. 
+Because the app is intended to use flavors, if none is passed in, the API which loads as a result is content from The Wire.
 
-A few resources to get you started if this is your first Flutter project:
+## Running flavors of the application
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+To run the Simpsons flavor use the command below:
+flutter run --flavor=simpsons --dart-define=app.flavor=simpsons
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+To run the Wire flavor use the following command:
+flutter run --flavor=wire --dart-define=app.flavor=wire
+
+## Running Tests
+
+To run the tests within the project and view the results in a browser window run the following three commands:
+
+flutter test --coverage
+genhtml coverage/lcov.info -o coverage/html
+open coverage/html/index.html
