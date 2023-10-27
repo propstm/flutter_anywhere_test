@@ -1,59 +1,54 @@
 import 'package:flutter/material.dart';
 
 class CharacterDetail extends StatelessWidget {
-  final String name;
-  final String description;
-  final String imageUrl;
+  final Map<String, dynamic> selectedCharacter;
+  final bool isTablet;
 
   const CharacterDetail(
-      {super.key,
-      required this.name,
-      required this.description,
-      required this.imageUrl});
+      {super.key, required this.selectedCharacter, required this.isTablet});
 
   @override
   Widget build(BuildContext context) {
+    if (isTablet) {
+      return buildDetailContent();
+    }
     return Scaffold(
         appBar: AppBar(
-          title: Text(this.name),
+          title: Text(this.selectedCharacter['name']),
         ),
         // body: const Placeholder(),
-        body: Padding(
-          padding:
-              const EdgeInsets.only(top: 12, right: 12, bottom: 8, left: 12),
-          child: SingleChildScrollView(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(children: [
-                Expanded(
-                    child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(description),
-                    ],
-                  ),
-                )),
-                const SizedBox(
-                  width: 16,
-                ),
-                buildImage(),
-              ]),
-            ],
-          )),
-        ));
+        body: buildDetailContent());
+  }
+
+  Widget buildDetailContent() {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 12, right: 12, bottom: 8, left: 12),
+        child: SingleChildScrollView(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Expanded(child: Text(selectedCharacter['description'])),
+              const SizedBox(
+                width: 16,
+              ),
+              buildImage(),
+            ]),
+          ],
+        )),
+      ),
+    );
   }
 
   Widget buildImage() {
     print('image url:');
-    print(imageUrl);
+    print(selectedCharacter['image']);
     return Image.network(
-      imageUrl,
+      selectedCharacter['image'],
       height: 200,
       width: 200,
-      fit: BoxFit.fitHeight,
     );
   }
 }
